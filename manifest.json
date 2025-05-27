@@ -13,17 +13,14 @@
     "default_icon": "icon.png",
     "default_title": "Shorts Auto Next"
   },
-  "content_scripts": [
-    {
-      "matches": ["https://*.youtube.com/shorts/*","https://youtube.com/shorts/*"],
-      "js": ["content-youtube.js"],
-      "run_at": "document_start"
-    },
-    {
-      "matches": ["https://instagram.com/reels/*","https://*.instagram.com/reels/*"],
-      "js": ["content-instagram.js"],
-      "run_at": "document_start"
-    }
+  "permissions": ["scripting", "tabs"],
+    "host_permissions": [
+    "https://youtube.com/*",
+    "https://*.youtube.com/*",
+    "https://instagram.com/*",
+    "https://*.instagram.com/*"
   ],
-  "permissions": []
+  "background": {
+    "service_worker": "background.js"
+  }
 }
