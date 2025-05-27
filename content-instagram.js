@@ -11,6 +11,11 @@ function handleVideoAtIndex(index) {
     return;
   }
 
+  if (video.muted){
+    document.querySelector("[role=\"presentation\"] [role=\"button\"] [role=\"button\"]").click();
+    console.log("unmute");
+  }
+  
   const onEnded = () => {
     video.removeEventListener('ended', onEnded);
     const nextIndex = index + 1;
