@@ -1,9 +1,9 @@
 // Handle a single Shorts video logic
 function handleShortsVideo() {
-  const video = document.querySelector('video');
+  const video = document.querySelector('video[tabindex="-1"]');
   if (!video) return;
 
-  console.log("Shorts video detected");
+  // console.log("Shorts video detected", video);
 
   let difference = 0.5;
   let first = 0;
@@ -11,6 +11,7 @@ function handleShortsVideo() {
   let hasEnded = false;
 
   video.addEventListener('timeupdate', () => {
+    // console.log("timeupdate");
     first = last;
     last = video.currentTime;
     difference = last - first;
@@ -40,13 +41,13 @@ function startObserving() {
   if (observer) observer.disconnect();
 
   observer = new MutationObserver(() => {
-    if (location.href !== lastUrl) {
+    // if (location.href !== lastUrl) {
       lastUrl = location.href;
-      if (location.href.includes("/shorts/")) {
+      if (location.href.includes("/short")) {
         // console.log("URL changed to:", lastUrl);
         setTimeout(handleShortsVideo, 300); // Slight delay to let DOM settle
       }
-    }
+    // }
   });
 
   observer.observe(document.body, { childList: true, subtree: true });
