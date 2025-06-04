@@ -1,6 +1,9 @@
 let last_url = "";
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+  if (changeInfo.status === 'loading') {
+    last_url = "";
+  }
   if (!tab.url || changeInfo.status !== 'complete') return;
 
   if (last_url == tab.url) return;
