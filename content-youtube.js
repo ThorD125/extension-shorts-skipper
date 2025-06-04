@@ -1,5 +1,12 @@
-// Handle a single Shorts video logic
+// // Handle a single Shorts video logic
+let funccount = 0;
+
 function handleShortsVideo() {
+
+  funccount +=1;
+
+  console.log("handleshortsvideo", funccount);
+
   const video = document.querySelector('video[tabindex="-1"]');
   if (!video) return;
 
@@ -11,7 +18,7 @@ function handleShortsVideo() {
   let hasEnded = false;
 
   video.addEventListener('timeupdate', () => {
-    // console.log("timeupdate");
+    console.log("timeupdate", funccount);
     first = last;
     last = video.currentTime;
     difference = last - first;
@@ -33,33 +40,33 @@ function handleShortsVideo() {
   });
 }
 
-// Observe the DOM for changes in URL or content
-function startObserving() {
-  let lastUrl = location.href;
-  let observer;
+// // Observe the DOM for changes in URL or content
+// function startObserving() {
+//   let lastUrl = location.href;
+//   let observer;
 
-  if (observer) observer.disconnect();
+//   if (observer) observer.disconnect();
 
-  observer = new MutationObserver(() => {
-    // if (location.href !== lastUrl) {
-      lastUrl = location.href;
-      if (location.href.includes("/short")) {
-        // console.log("URL changed to:", lastUrl);
-        setTimeout(handleShortsVideo, 300); // Slight delay to let DOM settle
-      }
-    // }
-  });
+//   observer = new MutationObserver(() => {
+//     // if (location.href !== lastUrl) {
+//       lastUrl = location.href;
+//       if (location.href.includes("/short")) {
+//         console.log("URL changed to:", lastUrl);
+//         setTimeout(handleShortsVideo, 300); // Slight delay to let DOM settle
+//       }
+//     // }
+//   });
 
-  observer.observe(document.body, { childList: true, subtree: true });
-}
+//   observer.observe(document.body, { childList: true, subtree: true });
+// }
 
 // Initial run
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", () => {
     if (location.href.includes("/shorts/")) handleShortsVideo();
-    startObserving();
+    // startObserving();
   });
 } else {
   if (location.href.includes("/shorts/")) handleShortsVideo();
-  startObserving();
+  // startObserving();
 }
