@@ -63,10 +63,12 @@ function handleShortsVideo() {
 // Initial run
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", () => {
-    if (location.href.includes("/shorts/")) handleShortsVideo();
+    // if (location.href.includes("/shorts/")) 
+      handleShortsVideo();
     // startObserving();
   });
 } else {
-  if (location.href.includes("/shorts/")) handleShortsVideo();
+  // if (location.href.includes("/shorts/")) 
+    handleShortsVideo();
   // startObserving();
 }

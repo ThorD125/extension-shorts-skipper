@@ -1,45 +1,60 @@
-function startObserving() {
-  let observer;
+// function startObserving() {
+//   let observer;
 
-  if (observer) observer.disconnect();
+//   if (observer) observer.disconnect();
 
-  observer = new MutationObserver(() => {
-    let lastUrl = location.href;
+//   observer = new MutationObserver(() => {
 
-    if (location.href !== lastUrl) {
+//     let lastUrl = location.href;
 
-      console.log("changed")
+//     if (location.href !== lastUrl) {
 
-      lastUrl = location.href;
-      onUrlChange();
-    }
-  });
+//       console.log("changed")
 
-  observer.observe(document, { childList: true, subtree: true });
-}
+//       lastUrl = location.href;
+//       onUrlChange();
+//     }
+//   });
+
+//   observer.observe(document, { childList: true, subtree: true });
+// }
 
 // Core logic encapsulated
-function onUrlChange() {
-  if (location.href.includes("/reels/")) {
-    console.log("URL changed to Instagram reel:", location.href);
-    startSkipper();
-  }
-  if (document.querySelector("video").muted) {
-    const unmuteButton = document.querySelector("[role='presentation'] [role='button'] [role='button']");
-    if (unmuteButton) unmuteButton.click();
-  }
+// function onUrlChange() {
+//   if (location.href.includes("/reels/")) {
+//     console.log("URL changed to Instagram reel:", location.href);
+//     startSkipper();
+//   }
+//   if (document.querySelector("video").muted) {
+//     const unmuteButton = document.querySelector("[role='presentation'] [role='button'] [role='button']");
+//     if (unmuteButton) unmuteButton.click();
+//   }
 
-}
+// }
 
-// Wrap your original logic in a function so it can be re-run on navigation
+
+
+
 function startSkipper() {
-  // document.addEventListener("DOMContentLoaded", () => {
+  
+// document.addEventListener("DOMContentLoaded", () => {
     console.log("Instagram skipper loaded");
     let currentIndex = 0;
 
-    function handleVideoAtIndex(index) {
-      const videos = document.querySelectorAll('video'); // Re-grab all videos fresh
-      const video = videos[index];
+    function handleVideoAtIndex() {
+      
+      
+    // function handleVideoAtIndex(index) {
+        document.querySelectorAll('video')
+        const videos = document.querySelectorAll('video'); 
+      // Re-grab all videos fresh
+        
+        const index = Array.from(videos).findIndex(video => !video.paused);
+        console.log("skip video on", index);
+        
+      
+        const video = videos[index];
+
       
       if (!video) return;
 
@@ -55,6 +70,8 @@ function startSkipper() {
           nextVideo.scrollIntoView({ behavior: 'smooth' });
           currentIndex = index + 1;
           setTimeout(() => handleVideoAtIndex(index + 1), 1000);
+                    
+        // setTimeout(() => handleVideoAtIndex(index + 1), 1000);
         }
       };
 
@@ -62,22 +79,48 @@ function startSkipper() {
     }
 
     handleVideoAtIndex(currentIndex);
+  
   // });
 }
 
 // Run immediately if already on reels
-if (location.href.includes("/reels/")) {
-  onUrlChange();
-}
+// if (location.href.includes("/reels/")) {
+//   onUrlChange();
+// }
 // Initial run
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", () => {
-    if (location.href.includes("/reels/")) handleShortsVideo();
-    startObserving();
+    startSkipper();
+    
+  // handleShortsVideo();
+    
+  // if (location.href.includes("/reels/")) 
+    
+  // startObserving();
+    console.log("domcontent loaded")
   });
+}
+  else if (document.readyState === "complete") {
+    startSkipper();
+    
+  // handleShortsVideo();
+    
+  // if (location.href.includes("/reels/")) 
+    
+  // startObserving();
+    console.log("domcontent complete")
+  
 } else {
-  if (location.href.includes("/reels/")) {
-    onUrlChange();
-  }
-  startObserving();
+  
+// if (location.href.includes("/reels/")) {
+    console.log("domcontent else")
+    
+  // onUrlChange();
+    console.log("document.readyState",document.readyState)
+    setTimeout(() => startSkipper(), 1000);
+
+  
+  // }
+  
+// startObserving();
 }
